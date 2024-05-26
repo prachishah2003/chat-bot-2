@@ -72,7 +72,7 @@ if messages and select_model != "gemini-pro-vision":
         elif role == "model":
             st.chat_message("assistant").markdown(parts[0])
 
-chat_message = st.chat_input("Say something")+"and give me links to buy the tools needed with an image of some of the tools"
+chat_message = st.chat_input("Say something")+" and give me links to buy the tools needed with an image of some of the tools"
 
 res = None
 if chat_message:
