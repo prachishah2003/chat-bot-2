@@ -19,7 +19,7 @@ st.set_page_config(page_title="Gemini Chatbot", page_icon=":gem:")
 with st.sidebar:
     st.title("Gemini Setting")
 
-    api_key = 'AIzaSyBkaZ1yTUQkGffgTClvQiUSkHBkCp4bHhs'
+    api_key = 'AIzaSyC5Mmy23tELO2hAbz0f6HNe9Nkd9KsMRyE'
     if api_key:
         genai.configure(api_key=api_key)
     else:
@@ -28,7 +28,7 @@ with st.sidebar:
         else:
             st.error("Missing API key.")
     select_model = st.selectbox(
-        "Select model", ["gemini-pro", "gemini-pro-vision"])
+        "Select model", ["gemini-pro", "gemini-pro-vision","powertools__new_final111"])
     temperature = 0.9
 
     if select_model == "gemini-pro-vision":
