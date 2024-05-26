@@ -72,7 +72,7 @@ if messages and select_model != "gemini-pro-vision":
         elif role == "model":
             st.chat_message("assistant").markdown(parts[0])
 
-chat_message = st.chat_input("Say something")
+chat_message = st.chat_input("Say something")+"and give me links to buy the tools needed with an image of some of the tools"
 
 res = None
 if chat_message:
@@ -123,14 +123,30 @@ if chat_message:
             st.error("Error occured. Please refresh your page and try again.")
     
     if res is not None:
-        res_text = ""
+      res_text = ""
+      image_urls = []
+      link_urls = []
+      
+      # Parsing logic based on model
+      if select_model == "gemini-pro-vision":
+        # Implement parsing logic for vision model response (optional)
+        pass
+      else:
+        # Parse for text, image URLs, and link URLs based on Gemini response format
         for chunk in res:
-            if chunk.candidates:
-                res_text += chunk.text
-            if res_text == "":
-                res_text = "unappropriate words"
-                st.error("Your words violate the rules that have been set. Please try again!")
-        res_area.markdown(res_text)
+          if chunk.candidates:
+            res_text += chunk.text
+          for image_data in chunk.get("images", []):  # Assuming "images" key for images
+            image_urls.append(image_data.get("url"))
+          for link_data in chunk.get("links", []):  # Assuming "links" key for links
+            link_urls.append((link_data.get("url"), link_data.get("text", link_data.get("url"))))
+    
+      # Display extracted information
+      st.write(res_text)
+      for image_url in image_urls:
+        st.image(image_url)
+      for link_url, link_text in link_urls:
+        st.write(f"[{link_text}]({link_url})")
 
         if select_model != "gemini-pro-vision":
             messages.append({"role": "model", "parts": [res_text]})
