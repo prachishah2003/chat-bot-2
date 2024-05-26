@@ -1,5 +1,6 @@
 from PIL import Image
 import io
+import json
 import logging
 import streamlit as st
 import google.generativeai as genai
@@ -47,9 +48,19 @@ with st.sidebar:
 
 def get_response(messages, model="gemini-pro"):
     model = genai.GenerativeModel(model)
-    res = model.generate_content(messages,
+    res = model.generate_content(messages+"provide four images of the tools needed"+"and provide links to buy the tools needed",
                                  generation_config=generation_config)
-    return res
+    response_json = json.loads(res)
+    text = response_json.get("text")  # Adjust key name based on documentation
+    image_urls = response_json.get("images", [])  # Handle empty list case
+    link_urls = []
+    links_data = response_json.get("links", [])  # Handle empty list case
+    for link in links_data:
+      link_url = link.get("url")
+      link_text = link.get("text", link_url)  # Use url as text if no text provided
+      link_urls.append((link_url, link_text))
+
+    return text,image_urls,link_urls
 
 
 if "messages" not in st.session_state:
@@ -112,7 +123,7 @@ if chat_message:
             {"role": "user", "parts":  [chat_message]},
         )
         try:
-            res = get_response(messages)
+            text, image_urls, link_urls = get_response(messages)
         except google_exceptions.InvalidArgument as e:
             if "API key not valid" in str(e):
                 st.error("API key not valid. Please pass a valid API key.")
@@ -122,7 +133,7 @@ if chat_message:
             logging.error(e)
             st.error("Error occured. Please refresh your page and try again.")
     
-    if res is not None:
+    if text is not None:
         res_text = ""
         for chunk in res:
             if chunk.candidates:
@@ -131,6 +142,13 @@ if chat_message:
                 res_text = "unappropriate words"
                 st.error("Your words violate the rules that have been set. Please try again!")
         res_area.markdown(res_text)
+                   # Display Images
+        for image_url in image_urls:
+            st.image(image_url)
+        
+          # Display Links
+        for link_url, link_text in link_urls:
+            st.write(f"[{link_text}]({link_url})")
 
         if select_model != "gemini-pro-vision":
             messages.append({"role": "model", "parts": [res_text]})
