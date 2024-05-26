@@ -108,8 +108,9 @@ if chat_message:
                 logging.error(e)
                 st.error("Error occured. Please refresh your page and try again.")
     else:
+        chat_message = chat_message +" and give me links to buy the tools needed with an image of some of the tools"
         messages.append(
-            {"role": "user", "parts":  [chat_message]+" and give me links to buy the tools needed with an image of some of the tools"},
+            {"role": "user", "parts":  [chat_message]},
         )
         try:
             res = get_response(messages)
