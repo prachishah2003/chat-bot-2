@@ -222,9 +222,8 @@ if chat_message:
                     pil_image = PIL.Image.open(io.BytesIO(img))
                     # If successful, display the image
                     st.image(pil_image, caption=m, width=100)
-                except PIL.UnidentifiedImageError:
-                    # If the image cannot be identified, display an error message
-                    st.write("Unable to display image for:", m, "Invalid image format")
+                except Exception as e:
+                    pass
             else:
                 st.write("No results found for:", m)
                 
