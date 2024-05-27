@@ -19,6 +19,7 @@ tool_info = [
     {"name": "Bosch Professional 12-In-1 Multitool Set, Pack Of 1", "link": "https://www.amazon.in/dp/B07Q2YVZ8L"},
     {"name": "BOSCH 2608603412 4 Inch Metal Cutting Wheel 10Pc Set Metal Cutter", "link": "https://www.flipkart.com/bosch-2608603412-4-inch-metal-cutting-wheel-10pc-set-metal-cutter/p/itmfb8445yx2dspa"},
     {"name": "Bosch 2607017063 Screwdriver Bit Set (Grey, 32-Pieces)", "link": "https://www.amazon.in/dp/B07Q2YVZ8L"},
+    {"name":"Bosch Tools","link": "https://www.ibo.com/power-tools/c/3050"},
 ]
 
 
