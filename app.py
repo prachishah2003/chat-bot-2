@@ -173,42 +173,63 @@ if chat_message:
         st.write("Hand Tools")
         for tool in hand_tools:
             st.write(f"[{tool['name']}]({tool['link']})")
-     # Copy the response to 'maintext'
     maintext = res_text
+
+    # Split the main text into paragraphs
+    textArr = maintext.split("\n\n")
     
-    textArr = maintext.split("\n\n")
-    materials = textArr[1]
-    materialsList = materials.split('\n')
-
-    textArr = maintext.split("\n\n")
-    tools = textArr[3]
-    toolsList = tools.split('\n')
-
+    # Initialize materialsList as an empty list
+    materialsList = []
+    toolsList = []
+    
+    # Check if textArr has at least two paragraphs to avoid index errors
+    if len(textArr) >= 2:
+        # Get the second paragraph (materials)
+        materials = textArr[1]
+        materialsList = materials.split('\n')
+    
+    # Check if textArr has at least four paragraphs to avoid index errors
+    if len(textArr) >= 4:
+        # Get the fourth paragraph (tools)
+        tools = textArr[3]
+        toolsList = tools.split('\n')
+    
     final_material_list = []
     final_tools_list = []
-
-    for m in materialsList:
-        m = re.sub(r'[^\w\s]+', '', m)
-        final_material_list.append(m)
-        
-    for t in toolsList:
-        t = re.sub(r'[^\w\s]+', '', t)
-        final_tools_list.append(t)
     
-    for m in final_material_list:    
-        result = ts.google_search(
-        m, 
-        ts.api_key, 
-        ts.search_engine_id
-        )
+    # Check if the first line of the response contains the word 'material'
+    if len(textArr) > 0 and 'material' in textArr[0].lower():
+        # Process materials list
+        for m in materialsList:
+            m = re.sub(r'[^\w\s]+', '', m)
+            final_material_list.append(m)
+    
+        # Process tools list
+        for t in toolsList:
+            t = re.sub(r'[^\w\s]+', '', t)
+            final_tools_list.append(t)
+    
+        # Display images for materials
+        for m in final_material_list:
+            # Perform Google search for each material
+            result = ts.google_search(m, ts.api_key, ts.search_engine_id)
             
-        if 'items' in result:
-            image_url = result['items'][0]['link']
-            response = requests.get(image_url)
-            img = response.content
-            st.image(img, caption=m, width=100)
-        else:
-            st.write("No results found")
+            if 'items' in result:
+                # Get the first search result
+                image_url = result['items'][0]['link']
+                
+                try:
+                    # Retrieve the image
+                    response = requests.get(image_url)
+                    img = response.content
+                    # Display the image
+                    st.image(img, caption=m, width=100)
+                except Exception as e:
+                    st.write("Error occurred while retrieving image:", e)
+            else:
+                st.write("No results found for:", m)
+    else:
+        st.write("No materials found in the response.")
 
 
         if select_model != "gemini-pro-vision":
