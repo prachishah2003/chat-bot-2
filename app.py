@@ -218,11 +218,11 @@ if chat_message:
                 # Get the first search result
                 image_url = result['items'][0]['link']
                 try:
-                    # Attempt to open the image with PIL to check if it's a valid image
-                    pil_image = PIL.Image.open(io.BytesIO(img))
-                    # If successful, display the image
-                    st.image(pil_image, caption=m, width=100)
-                except Exception as e:
+                    response = requests.get(image_url)
+                    img = response.content
+                
+                    st.image(img, caption=m, width=100)
+                except Exception:
                     pass
             else:
                 st.write("No results found for:", m)
