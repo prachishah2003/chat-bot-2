@@ -173,6 +173,43 @@ if chat_message:
         st.header("Hand Tools")
         for tool in hand_tools:
             st.write(f"[{tool['name']}]({tool['link']})")
+     # Copy the response to 'maintext'
+    maintext = res_text
+    
+    textArr = maintext.split("\n\n")
+    materials = textArr[1]
+    materialsList = materials.split('\n')
+
+    textArr = maintext.split("\n\n")
+    tools = textArr[3]
+    toolsList = tools.split('\n')
+
+    final_material_list = []
+    final_tools_list = []
+
+    for m in materialsList:
+        m = re.sub(r'[^\w\s]+', '', m)
+        final_material_list.append(m)
+        
+    for t in toolsList:
+        t = re.sub(r'[^\w\s]+', '', t)
+        final_tools_list.append(t)
+    
+    for m in final_material_list:    
+        result = ts.google_search(
+        m, 
+        ts.api_key, 
+        ts.search_engine_id
+        )
+            
+        if 'items' in result:
+            image_url = result['items'][0]['link']
+            response = requests.get(image_url)
+            img = response.content
+            st.image(img, caption=m, width=100)
+        else:
+            st.write("No results found")
+
 
         if select_model != "gemini-pro-vision":
             messages.append({"role": "model", "parts": [res_text]})
