@@ -217,17 +217,17 @@ if chat_message:
             if 'items' in result:
                 # Get the first search result
                 image_url = result['items'][0]['link']
-                
-                try:
-                    # Retrieve the image
-                    response = requests.get(image_url)
-                    img = response.content
-                    # Display the image
-                    st.image(img, caption=m, width=100)
-                except Exception as e:
-                    st.write("Error occurred while retrieving image:", e)
+                 try:
+                    # Attempt to open the image with PIL to check if it's a valid image
+                    pil_image = PIL.Image.open(io.BytesIO(img))
+                    # If successful, display the image
+                    st.image(pil_image, caption=m, width=100)
+                except PIL.UnidentifiedImageError:
+                    # If the image cannot be identified, display an error message
+                    st.write("Unable to display image for:", m, "Invalid image format")
             else:
                 st.write("No results found for:", m)
+                
     else:
         st.write("No materials found in the response.")
 
