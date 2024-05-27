@@ -164,7 +164,7 @@ if chat_message:
         for tool in hand_tools:
             st.write(f"[{tool['name']}]({tool['link']})")
 
-        # Copy the response to 'maintext'
+          # Copy the response to 'maintext'
         maintext = res_text
     
         # Split the main text into paragraphs
@@ -182,10 +182,14 @@ if chat_message:
             if 'material' in first_line.lower():
                 materialsList = materials.split('\n')
     
+        # Initialize toolsList as an empty list
+        toolsList = []
     
-        textArr = maintext.split("\n\n")
-        tools = textArr[3]
-        toolsList = tools.split('\n')
+        # Check if textArr has more than four paragraphs to avoid index errors
+        if len(textArr) > 3:
+            # Get the fourth paragraph
+            tools = textArr[3]
+            toolsList = tools.split('\n')
     
         final_material_list = []
         final_tools_list = []
@@ -200,11 +204,7 @@ if chat_message:
     
         if final_material_list:  # Check if the material list is not empty
             for m in final_material_list:
-                result = ts.google_search(
-                    m,
-                    ts.api_key,
-                    ts.search_engine_id
-                )
+                result = ts.google_search(m, ts.api_key, ts.search_engine_id)
     
                 if 'items' in result:
                     image_url = result['items'][0]['link']
