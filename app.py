@@ -166,11 +166,11 @@ if chat_message:
                 st.error("Your words violate the rules that have been set. Please try again!")
         res_area.markdown(res_text)
 
-        st.header("Power Tools")
+        st.write("Power Tools")
         for tool in power_tools:
             st.write(f"[{tool['name']}]({tool['link']})")
 
-        st.header("Hand Tools")
+        st.write("Hand Tools")
         for tool in hand_tools:
             st.write(f"[{tool['name']}]({tool['link']})")
      # Copy the response to 'maintext'
