@@ -2,6 +2,7 @@ from PIL import Image
 import io
 import logging
 import streamlit as st
+import random
 import google.generativeai as genai
 from google.api_core import exceptions as google_exceptions
 
@@ -147,9 +148,12 @@ if chat_message:
                 res_text = "unappropriate words"
                 st.error("Your words violate the rules that have been set. Please try again!")
         res_area.markdown(res_text)
-        # Display the tool names and links
-        st.markdown("Bosch Tool Sets")
-        for tool in tool_info:
-            st.markdown(f"**[{tool['name']}]({tool['link']})**")
+              # Randomly select 5 links
+        random_links = random.sample(tool_info, 5)
+        
+        # Display links
+        st.write("Random 5 Tool Links:")
+        for i, link_info in enumerate(random_links, start=1):
+            st.write(f"{i}. [{link_info['name']}]({link_info['link']})")
         if select_model != "gemini-pro-vision":
             messages.append({"role": "model", "parts": [res_text]})
