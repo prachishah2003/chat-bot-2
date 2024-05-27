@@ -9,9 +9,25 @@ import trialsearch as ts
 import requests
 
 temperature = 0.9
-# Define the Bosch tool names and buy links
-tool_info = [
+import streamlit as st
+
+# Power tools
+power_tools = [
     {"name":"Bosch Tools","link": "https://www.ibo.com/power-tools/c/3050"},
+    {"name": "DeWalt 20V MAX Cordless Drill / Driver Kit", "link": "https://www.amazon.com/DEWALT-DCD771C2-20V-Lithium-Ion-Cordless/dp/B00ET5VMTU"},
+    {"name": "Makita XAG04Z 18V LXT Cordless Cut-Off/Angle Grinder", "link": "https://www.homedepot.com/p/Makita-18-Volt-LXT-Lithium-Ion-Brushless-Cordless-4-1-2-in-5-in-Cut-Off-Angle-Grinder-Tool-Only-XAG04Z/205447392"},
+    {"name": "Bosch ROS20VSC Palm Sander", "link": "https://www.lowes.com/pd/Bosch-2-5-Amp-Corded-5-in-Random-Orbit-Sander-with-Case/999925164"},
+    {"name": "Milwaukee 2767-20 M18 Fuel High Torque 1/2\" Impact Wrench", "link": "https://www.amazon.com/Milwaukee-2767-20-Fuel-Torque-Wrench/dp/B0753Z5RHN"},
+    {"name": "Black+Decker 20V MAX Cordless Reciprocating Saw", "link": "https://www.walmart.com/ip/BLACK-DECKER-20V-MAX-Cordless-Reciprocating-Saw-BDCR20C/34354758"}
+]
+
+# Hand tools
+hand_tools = [
+    {"name": "Stanley 16-791 Sweetheart 750 Series Socket Chisel Set", "link": "https://www.amazon.com/Stanley-16-791-Sweetheart-4-Piece-750/dp/B0030T1BR6"},
+    {"name": "Klein Tools 80020 Tool Set", "link": "https://www.homedepot.com/p/Klein-Tools-8-Piece-Electrician-s-Tool-Set-80020/305054940"},
+    {"name": "Irwin Vise-Grip Original Locking Pliers Set", "link": "https://www.lowes.com/pd/IRWIN-VISE-GRIP-3-Piece-Locking-Pliers-Set/1000264293"},
+    {"name": "TEKTON Combination Wrench Set", "link": "https://www.amazon.com/TEKTON-Combination-Wrench-12-Inch-15-Piece/dp/B009QYF3QA"},
+    {"name": "Estwing E3-16S 16 oz Straight Rip Claw Hammer", "link": "https://www.homedepot.com/p/Estwing-16-oz-Straight-Claw-Rip-Hammer-E3-16S/100351741"}
 ]
 
 
@@ -139,59 +155,64 @@ if chat_message:
                 res_text = "unappropriate words"
                 st.error("Your words violate the rules that have been set. Please try again!")
         res_area.markdown(res_text)
-        st.write("Tool Links:")
-        for i, link_info in enumerate(tool_info, start=1):
-            st.write(f"{i}. [{link_info['name']}]({link_info['link']})")
 
-    # Copy the response to 'maintext'
-    maintext = res_text
-
-    # Split the main text into paragraphs
-    textArr = maintext.split("\n\n")
-
-    # Initialize materialsList as an empty list
-    materialsList = []
-
-    # Check if textArr has more than one paragraph to avoid index errors
-    if len(textArr) > 1:
-        # Get the second paragraph
-        materials = textArr[1]
-        # Check if the first line of the second paragraph contains 'material'
-        first_line = materials.split('\n')[0]
-        if 'material' in first_line.lower():
-            materialsList = materials.split('\n')
-
-
-    textArr = maintext.split("\n\n")
-    tools = textArr[3]
-    toolsList = tools.split('\n')
-
-    final_material_list = []
-    final_tools_list = []
-
-    for m in materialsList:
-        m = re.sub(r'[^\w\s]+', '', m)
-        final_material_list.append(m)
+        st.header("Power Tools")
+        for tool in power_tools:
+            st.write(f"[{tool['name']}]({tool['link']})")
         
-    for t in toolsList:
-        t = re.sub(r'[^\w\s]+', '', t)
-        final_tools_list.append(t)
+        st.header("Hand Tools")
+        for tool in hand_tools:
+            st.write(f"[{tool['name']}]({tool['link']})")
 
-    if final_material_list:  # Check if the material list is not empty
-        for m in final_material_list:
-            result = ts.google_search(
-                m,
-                ts.api_key,
-                ts.search_engine_id
-            )
-
-            if 'items' in result:
-                image_url = result['items'][0]['link']
-                response = requests.get(image_url)
-                img = response.content
-                st.image(img, caption=m, width=100)
-            else:
-                st.write("No results found")
-
-            if select_model != "gemini-pro-vision":
-                messages.append({"role": "model", "parts": [res_text]})
+        # Copy the response to 'maintext'
+        maintext = res_text
+    
+        # Split the main text into paragraphs
+        textArr = maintext.split("\n\n")
+    
+        # Initialize materialsList as an empty list
+        materialsList = []
+    
+        # Check if textArr has more than one paragraph to avoid index errors
+        if len(textArr) > 1:
+            # Get the second paragraph
+            materials = textArr[1]
+            # Check if the first line of the second paragraph contains 'material'
+            first_line = materials.split('\n')[0]
+            if 'material' in first_line.lower():
+                materialsList = materials.split('\n')
+    
+    
+        textArr = maintext.split("\n\n")
+        tools = textArr[3]
+        toolsList = tools.split('\n')
+    
+        final_material_list = []
+        final_tools_list = []
+    
+        for m in materialsList:
+            m = re.sub(r'[^\w\s]+', '', m)
+            final_material_list.append(m)
+            
+        for t in toolsList:
+            t = re.sub(r'[^\w\s]+', '', t)
+            final_tools_list.append(t)
+    
+        if final_material_list:  # Check if the material list is not empty
+            for m in final_material_list:
+                result = ts.google_search(
+                    m,
+                    ts.api_key,
+                    ts.search_engine_id
+                )
+    
+                if 'items' in result:
+                    image_url = result['items'][0]['link']
+                    response = requests.get(image_url)
+                    img = response.content
+                    st.image(img, caption=m, width=100)
+                else:
+                    st.write("No results found")
+    
+        if select_model != "gemini-pro-vision":
+            messages.append({"role": "model", "parts": [res_text]})
