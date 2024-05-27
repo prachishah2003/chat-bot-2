@@ -164,55 +164,6 @@ if chat_message:
         for tool in hand_tools:
             st.write(f"[{tool['name']}]({tool['link']})")
 
-          # Copy the response to 'maintext'
-        maintext = res_text
-    
-        # Split the main text into paragraphs
-        textArr = maintext.split("\n\n")
-    
-        # Initialize materialsList as an empty list
-        materialsList = []
-    
-        # Check if textArr has more than one paragraph to avoid index errors
-        if len(textArr) > 1:
-            # Get the second paragraph
-            materials = textArr[1]
-            # Check if the first line of the second paragraph contains 'material'
-            first_line = materials.split('\n')[0]
-            if 'material' in first_line.lower():
-                materialsList = materials.split('\n')
-    
-        # Initialize toolsList as an empty list
-        toolsList = []
-    
-        # Check if textArr has more than four paragraphs to avoid index errors
-        if len(textArr) > 3:
-            # Get the fourth paragraph
-            tools = textArr[3]
-            toolsList = tools.split('\n')
-    
-        final_material_list = []
-        final_tools_list = []
-    
-        for m in materialsList:
-            m = re.sub(r'[^\w\s]+', '', m)
-            final_material_list.append(m)
-            
-        for t in toolsList:
-            t = re.sub(r'[^\w\s]+', '', t)
-            final_tools_list.append(t)
-    
-        if final_material_list:  # Check if the material list is not empty
-            for m in final_material_list:
-                result = ts.google_search(m, ts.api_key, ts.search_engine_id)
-    
-                if 'items' in result:
-                    image_url = result['items'][0]['link']
-                    response = requests.get(image_url)
-                    img = response.content
-                    st.image(img, caption=m, width=100)
-                else:
-                    st.write("No results found")
     
         if select_model != "gemini-pro-vision":
             messages.append({"role": "model", "parts": [res_text]})
