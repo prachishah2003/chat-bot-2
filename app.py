@@ -24,7 +24,7 @@ power_tools = [
      "link": "https://www.amazon.in/s?k=bosch+tools&crid=1ULBPHHWWPPLG&sprefix=bosch+tool%2Caps%2C330&ref=nb_sb_noss_1"},
     {"name": "Bosch Tools on Flipkart",
      "link": "https://www.flipkart.com/search?q=bosch%20tools&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"},
-    "name": "Stanley 16-791 Sweetheart 750 Series Socket Chisel Set",
+    {"name": "Stanley 16-791 Sweetheart 750 Series Socket Chisel Set",
      "link": "https://www.amazon.com/Stanley-16-791-Sweetheart-4-Piece-750/dp/B0030T1BR6"},
     {"name": "TEKTON Combination Wrench Set",
      "link": "https://www.amazon.com/TEKTON-Combination-Wrench-12-Inch-15-Piece/dp/B009QYF3QA"}
