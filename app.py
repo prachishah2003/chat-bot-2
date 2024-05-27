@@ -152,7 +152,7 @@ if chat_message:
         random_links = random.sample(tool_info, 5)
         
         # Display links
-        st.write("Random 5 Tool Links:")
+        st.write("Tool Links:")
         for i, link_info in enumerate(random_links, start=1):
             st.write(f"{i}. [{link_info['name']}]({link_info['link']})")
         if select_model != "gemini-pro-vision":
