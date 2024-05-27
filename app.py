@@ -13,32 +13,23 @@ import streamlit as st
 
 # Power tools
 power_tools = [
-    {"name": "Bosch Tools", "link": "https://www.ibo.com/power-tools/c/3050"},
-    {"name": "DeWalt 20V MAX Cordless Drill / Driver Kit",
-     "link": "https://www.amazon.com/DEWALT-DCD771C2-20V-Lithium-Ion-Cordless/dp/B00ET5VMTU"},
-    {"name": "Makita XAG04Z 18V LXT Cordless Cut-Off/Angle Grinder",
-     "link": "https://www.homedepot.com/p/Makita-18-Volt-LXT-Lithium-Ion-Brushless-Cordless-4-1-2-in-5-in-Cut-Off-Angle-Grinder-Tool-Only-XAG04Z/205447392"},
+    {"name": "Bosch Tools on IBO", "link": "https://www.ibo.com/power-tools/c/3050"},
+    {"name": "Bosch Power Tools",
+     "link": "https://www.boschtools.com/us/en/power-tools-22064-ocs-c/"},
+    {"name": "Bosch Measurement Tools",
+     "link": "https://www.boschtools.com/us/en/measuring-and-layout-tools-23413-ocs-c/"},
     {"name": "Bosch ROS20VSC Palm Sander",
      "link": "https://www.lowes.com/pd/Bosch-2-5-Amp-Corded-5-in-Random-Orbit-Sander-with-Case/999925164"},
-    {"name": "Milwaukee 2767-20 M18 Fuel High Torque 1/2\" Impact Wrench",
-     "link": "https://www.amazon.com/Milwaukee-2767-20-Fuel-Torque-Wrench/dp/B0753Z5RHN"},
-    {"name": "Black+Decker 20V MAX Cordless Reciprocating Saw",
-     "link": "https://www.walmart.com/ip/BLACK-DECKER-20V-MAX-Cordless-Reciprocating-Saw-BDCR20C/34354758"}
+    {"name": "Bosch Tools on Amazon",
+     "link": "https://www.amazon.in/s?k=bosch+tools&crid=1ULBPHHWWPPLG&sprefix=bosch+tool%2Caps%2C330&ref=nb_sb_noss_1"},
+    {"name": "Bosch Tools on Flipkart",
+     "link": "https://www.flipkart.com/search?q=bosch%20tools&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"},
+    "name": "Stanley 16-791 Sweetheart 750 Series Socket Chisel Set",
+     "link": "https://www.amazon.com/Stanley-16-791-Sweetheart-4-Piece-750/dp/B0030T1BR6"},
+    {"name": "TEKTON Combination Wrench Set",
+     "link": "https://www.amazon.com/TEKTON-Combination-Wrench-12-Inch-15-Piece/dp/B009QYF3QA"}
 ]
 
-# Hand tools
-hand_tools = [
-    {"name": "Stanley 16-791 Sweetheart 750 Series Socket Chisel Set",
-     "link": "https://www.amazon.com/Stanley-16-791-Sweetheart-4-Piece-750/dp/B0030T1BR6"},
-    {"name": "Klein Tools 80020 Tool Set",
-     "link": "https://www.homedepot.com/p/Klein-Tools-8-Piece-Electrician-s-Tool-Set-80020/305054940"},
-    {"name": "Irwin Vise-Grip Original Locking Pliers Set",
-     "link": "https://www.lowes.com/pd/IRWIN-VISE-GRIP-3-Piece-Locking-Pliers-Set/1000264293"},
-    {"name": "TEKTON Combination Wrench Set",
-     "link": "https://www.amazon.com/TEKTON-Combination-Wrench-12-Inch-15-Piece/dp/B009QYF3QA"},
-    {"name": "Estwing E3-16S 16 oz Straight Rip Claw Hammer",
-     "link": "https://www.homedepot.com/p/Estwing-16-oz-Straight-Claw-Rip-Hammer-E3-16S/100351741"}
-]
 
 generation_config = {
     "temperature": temperature,
@@ -166,13 +157,10 @@ if chat_message:
                 st.error("Your words violate the rules that have been set. Please try again!")
         res_area.markdown(res_text)
 
-        st.write("Power Tools")
+        st.header("Buy Now On:")
         for tool in power_tools:
             st.write(f"[{tool['name']}]({tool['link']})")
 
-        st.write("Hand Tools")
-        for tool in hand_tools:
-            st.write(f"[{tool['name']}]({tool['link']})")
     maintext = res_text
 
     # Split the main text into paragraphs
@@ -208,7 +196,8 @@ if chat_message:
         for t in toolsList:
             t = re.sub(r'[^\w\s]+', '', t)
             final_tools_list.append(t)
-    
+
+        st.header("Material images:")
         # Display images for materials
         for m in final_material_list:
             # Perform Google search for each material
