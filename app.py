@@ -5,6 +5,22 @@ import streamlit as st
 import google.generativeai as genai
 from google.api_core import exceptions as google_exceptions
 
+
+# Define the Bosch tool names and buy links
+tool_info = [
+    {"name": "Bosch GSB 500W 500 RE Tool Set And Masonry Drill Bit Set Combo", "link": "https://www.amazon.in/dp/B07Q2YVZ8L"},
+    {"name": "Bosch Hand Tool Kit (Blue, 12 Pieces) And Bosch 66041612 Screwdriver Bits Set", "link": "https://www.amazon.in/dp/B07Q2YVZ8L"},
+    {"name": "BOSCH 46 Piece Screwdriver Set Hand Tool Kit", "link": "https://www.flipkart.com/bosch-46-piece-screwdriver-set-hand-tool-kit/p/itmfb8445yx2dspa"},
+    {"name": "Bosch GSB 500W 500 RE Corded-Electric Drill Tool Set + Bosch GO 2 Professional Kit", "link": "https://www.amazon.in/dp/B07Q2YVZ8L"},
+    {"name": "Bosch 40 Piece X-Line Titanium Set Hand Tool Kit", "link": "https://www.flipkart.com/bosch-40-piece-x-line-titanium-set-hand-tool-kit/p/itmf3x6zgqzjxhjg"},
+    {"name": "Bosch GSB 180-LI 18V Cordless Impact Drill & Bosch Hand Tool Kit (Blue, 12 Pieces) & Bosch 2608590090 Masonry Drill Bit Set (5-Pieces)", "link": "https://www.amazon.in/dp/B07Q2YVZ8L"},
+    {"name": "Bosch 2608587521 65 mm PH2 Screwdriver Bit Set", "link": "https://www.industrybuying.com/screwdriver-bits-bosch-HA.SC.SC04.524981/"},
+    {"name": "Bosch Professional 12-In-1 Multitool Set, Pack Of 1", "link": "https://www.amazon.in/dp/B07Q2YVZ8L"},
+    {"name": "BOSCH 2608603412 4 Inch Metal Cutting Wheel 10Pc Set Metal Cutter", "link": "https://www.flipkart.com/bosch-2608603412-4-inch-metal-cutting-wheel-10pc-set-metal-cutter/p/itmfb8445yx2dspa"},
+    {"name": "Bosch 2607017063 Screwdriver Bit Set (Grey, 32-Pieces)", "link": "https://www.amazon.in/dp/B07Q2YVZ8L"},
+]
+
+
 temperature = 0.9
 
 generation_config = {
@@ -131,6 +147,9 @@ if chat_message:
                 res_text = "unappropriate words"
                 st.error("Your words violate the rules that have been set. Please try again!")
         res_area.markdown(res_text)
-
+        # Display the tool names and links
+        st.title("Bosch Tool Sets")
+        for tool in tool_info:
+            st.write(f"**{tool['name']}**: Buy here")
         if select_model != "gemini-pro-vision":
             messages.append({"role": "model", "parts": [res_text]})
