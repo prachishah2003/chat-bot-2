@@ -148,8 +148,8 @@ if chat_message:
                 st.error("Your words violate the rules that have been set. Please try again!")
         res_area.markdown(res_text)
         # Display the tool names and links
-        st.title("Bosch Tool Sets")
+        st.markdown("Bosch Tool Sets")
         for tool in tool_info:
-            st.write(f"**{tool['name']}**: Buy here")
+            st.markdown(f"**[{tool['name']}]({tool['link']})**")
         if select_model != "gemini-pro-vision":
             messages.append({"role": "model", "parts": [res_text]})
